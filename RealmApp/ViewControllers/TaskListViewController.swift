@@ -24,6 +24,7 @@ class TaskListViewController: UITableViewController {
         navigationItem.leftBarButtonItem = editButtonItem
         createTempData()
         taskLists = StorageManager.shared.realm.objects(TaskList.self)
+            .sorted(byKeyPath: "date", ascending: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,6 +84,11 @@ class TaskListViewController: UITableViewController {
     }
     
     @IBAction func sortingList(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0: taskLists = taskLists.sorted(byKeyPath: "date", ascending: false)
+        default: taskLists = taskLists.sorted(byKeyPath: "name", ascending: true)
+        }
+        tableView.reloadData()
     }
     
     @objc private func addButtonPressed() {
@@ -103,7 +109,10 @@ extension TaskListViewController {
     
     private func showAlert(with taskList: TaskList? = nil, completion: (() -> Void)? = nil) {
         let title = taskList != nil ? "Edit List" : "New List"
-        let alert = UIAlertController.createAlert(withTitle: title, andMessage: "Please set title for new task list")
+        let alert = UIAlertController.createAlert(
+            withTitle: title,
+            andMessage: "Please set title for new task list"
+        )
         
         alert.action(with: taskList) { [weak self] newValue in
             if let taskList = taskList, let completion = completion {

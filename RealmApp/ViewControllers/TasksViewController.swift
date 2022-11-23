@@ -17,6 +17,7 @@ class TasksViewController: UITableViewController {
     private var completedTasks: Results<Task>!
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         title = taskList.name
         
@@ -25,6 +26,7 @@ class TasksViewController: UITableViewController {
             target: self,
             action: #selector(addButtonPressed)
         )
+        
         navigationItem.rightBarButtonItems = [addButton, editButtonItem]
         currentTasks = taskList.tasks.filter("isComplete = false")
         completedTasks = taskList.tasks.filter("isComplete = true")
@@ -44,22 +46,21 @@ class TasksViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TasksCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
         let task = indexPath.section == 0 ? currentTasks[indexPath.row] : completedTasks[indexPath.row]
+        
         content.text = task.name
         content.secondaryText = task.note
         cell.contentConfiguration = content
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        var task = Task()
         
-        switch indexPath.section {
-        case 0: task = currentTasks[indexPath.row]
-        default: task = completedTasks[indexPath.row]
-        }
+        let task = getTask(for: indexPath)
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             StorageManager.shared.delete(task)
@@ -80,18 +81,29 @@ class TasksViewController: UITableViewController {
         }
         
         let undoneAction = UIContextualAction(style: .normal, title: "Undone") { _, _, isDone in
-            StorageManager.shared.done(task)
+            StorageManager.shared.unDone(task)
             tableView.reloadSections([0, 1], with: .automatic)
             isDone(true)
         }
         
         editAction.backgroundColor = .orange
         doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        undoneAction.backgroundColor = #colorLiteral(red: 1, green: 0.8823998326, blue: 0.09873144028, alpha: 1)
+        undoneAction.backgroundColor = #colorLiteral(red: 0.8273723872, green: 0.6953931788, blue: 0.03706394319, alpha: 1)
         
         let primaryAction = indexPath.section == 0 ? doneAction : undoneAction
         
         return UISwipeActionsConfiguration(actions: [primaryAction, editAction, deleteAction])
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let task = getTask(for: indexPath)
+        
+        showAlert(with: task) {
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
     
     @objc private func addButtonPressed() {
@@ -102,6 +114,7 @@ class TasksViewController: UITableViewController {
 
 extension TasksViewController {
     private func showAlert(with task: Task? = nil, completion: (() -> Void)? = nil) {
+        
         let title = task != nil ? "Edit Task" : "New Task"
         let alert = UIAlertController.createAlert(withTitle: title, andMessage: "What do you want to do?")
         
@@ -118,9 +131,18 @@ extension TasksViewController {
     }
     
     private func save(task: String, withNote note: String) {
+        
         StorageManager.shared.save(task, withNote: note, to: taskList) { task in
             let rowIndex = IndexPath(row: currentTasks.index(of: task) ?? 0, section: 0)
             tableView.insertRows(at: [rowIndex], with: .automatic)
+        }
+    }
+    
+    private func getTask(for indexPath: IndexPath) -> Task {
+        
+        switch indexPath.section {
+        case 0 : return currentTasks[indexPath.row]
+        default: return completedTasks[indexPath.row]
         }
     }
 }
