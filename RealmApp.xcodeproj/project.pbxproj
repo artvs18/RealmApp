@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		514F280C29369B0000560731 /* Extension + UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 514F280B29369B0000560731 /* Extension + UITableViewCell.swift */; };
 		A804828427103A010095A493 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A804828327103A010095A493 /* DataManager.swift */; };
 		A804828627103A100095A493 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A804828527103A100095A493 /* StorageManager.swift */; };
 		A804828827103BFD0095A493 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A804828727103BFD0095A493 /* TaskList.swift */; };
@@ -18,10 +19,11 @@
 		A872A11920E9D82600ECE2BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A872A11720E9D82600ECE2BA /* LaunchScreen.storyboard */; };
 		A872A12120E9D87400ECE2BA /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A872A12020E9D87400ECE2BA /* TaskListViewController.swift */; };
 		A872A12320E9D88E00ECE2BA /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A872A12220E9D88E00ECE2BA /* TasksViewController.swift */; };
-		A8E78FE9241A76EE00E66973 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E78FE8241A76EE00E66973 /* AlertController.swift */; };
+		A8E78FE9241A76EE00E66973 /* Extension + AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E78FE8241A76EE00E66973 /* Extension + AlertController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		514F280B29369B0000560731 /* Extension + UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UITableViewCell.swift"; sourceTree = "<group>"; };
 		A804828327103A010095A493 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A804828527103A100095A493 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		A804828727103BFD0095A493 /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
@@ -33,7 +35,7 @@
 		A872A11A20E9D82600ECE2BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A872A12020E9D87400ECE2BA /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
 		A872A12220E9D88E00ECE2BA /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
-		A8E78FE8241A76EE00E66973 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		A8E78FE8241A76EE00E66973 /* Extension + AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + AlertController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,12 +51,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		514F280A29369AD400560731 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A8E78FE8241A76EE00E66973 /* Extension + AlertController.swift */,
+				514F280B29369B0000560731 /* Extension + UITableViewCell.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A81BC31C256FED21002D9595 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				A872A12020E9D87400ECE2BA /* TaskListViewController.swift */,
 				A872A12220E9D88E00ECE2BA /* TasksViewController.swift */,
-				A8E78FE8241A76EE00E66973 /* AlertController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -83,6 +93,7 @@
 				A8969B34270F34C900F7DED0 /* Services */,
 				A8C2C60628B626750073F613 /* Storyboards */,
 				A8C2C60828B626980073F613 /* App */,
+				514F280A29369AD400560731 /* Extensions */,
 				A8C2C60728B6268C0073F613 /* Resurces */,
 			);
 			path = RealmApp;
@@ -211,12 +222,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A804828827103BFD0095A493 /* TaskList.swift in Sources */,
-				A8E78FE9241A76EE00E66973 /* AlertController.swift in Sources */,
+				A8E78FE9241A76EE00E66973 /* Extension + AlertController.swift in Sources */,
 				A804828427103A010095A493 /* DataManager.swift in Sources */,
 				A872A10F20E9D82400ECE2BA /* AppDelegate.swift in Sources */,
 				A804828627103A100095A493 /* StorageManager.swift in Sources */,
 				A872A12120E9D87400ECE2BA /* TaskListViewController.swift in Sources */,
 				A872A12320E9D88E00ECE2BA /* TasksViewController.swift in Sources */,
+				514F280C29369B0000560731 /* Extension + UITableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

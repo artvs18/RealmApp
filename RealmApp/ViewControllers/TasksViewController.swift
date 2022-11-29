@@ -74,25 +74,30 @@ class TasksViewController: UITableViewController {
             isDone(true)
         }
         
-        let doneAction = UIContextualAction(style: .normal, title: "Done") { _, _, isDone in
-            StorageManager.shared.done(task)
-            tableView.reloadSections([0, 1], with: .automatic)
-            isDone(true)
-        }
+        let doneTitle = indexPath.section == 0 ? "Done" : "Undone"
         
-        let undoneAction = UIContextualAction(style: .normal, title: "Undone") { _, _, isDone in
-            StorageManager.shared.unDone(task)
-            tableView.reloadSections([0, 1], with: .automatic)
+        let doneAction = UIContextualAction(style: .normal, title: doneTitle) { [weak self] _, _, isDone in
+            StorageManager.shared.done(task)
+            let currentTaskIndex = IndexPath(
+                row: self?.currentTasks.index(of: task) ?? 0,
+                section: 0
+            )
+            let completedTaskIndex = IndexPath(
+                row: self?.currentTasks.index(of: task) ?? 0,
+                section: 1
+            )
+            
+            let destinationIndexRow = indexPath.section == 0 ? completedTaskIndex : currentTaskIndex
+            tableView.moveRow(at: indexPath, to: destinationIndexRow)
+            
             isDone(true)
         }
         
         editAction.backgroundColor = .orange
         doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-        undoneAction.backgroundColor = #colorLiteral(red: 0.8273723872, green: 0.6953931788, blue: 0.03706394319, alpha: 1)
         
-        let primaryAction = indexPath.section == 0 ? doneAction : undoneAction
         
-        return UISwipeActionsConfiguration(actions: [primaryAction, editAction, deleteAction])
+        return UISwipeActionsConfiguration(actions: [doneAction, editAction, deleteAction])
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -109,12 +114,10 @@ class TasksViewController: UITableViewController {
     @objc private func addButtonPressed() {
         showAlert()
     }
-
 }
 
 extension TasksViewController {
     private func showAlert(with task: Task? = nil, completion: (() -> Void)? = nil) {
-        
         let title = task != nil ? "Edit Task" : "New Task"
         let alert = UIAlertController.createAlert(withTitle: title, andMessage: "What do you want to do?")
         
@@ -139,10 +142,8 @@ extension TasksViewController {
     }
     
     private func getTask(for indexPath: IndexPath) -> Task {
-        
-        switch indexPath.section {
-        case 0 : return currentTasks[indexPath.row]
-        default: return completedTasks[indexPath.row]
-        }
+        return indexPath.section == 0
+            ? currentTasks[indexPath.row]
+            : completedTasks[indexPath.row]
     }
 }
